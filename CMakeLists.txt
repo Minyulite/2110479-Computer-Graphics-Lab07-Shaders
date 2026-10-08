@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
+set(CMAKE_TOOLCHAIN_FILE "D:/Engineering/App/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE PATH "vcpkg toolchain")
 project(lab07 LANGUAGES CXX)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
@@ -107,7 +108,13 @@ target_link_libraries(lab07core PUBLIC
   stb
 )
 
-target_compile_options(lab07core PUBLIC -Wall -Wextra)
+if(MSVC)
+  target_compile_options(lab07core PUBLIC /W4)
+else()
+  target_compile_options(lab07core PUBLIC -Wall -Wextra -Werror)
+endif()
+
+# target_compile_options(lab07core PUBLIC -Wall -Wextra)
 
 # ── Shader compilation ────────────────────────────────────────────────────────
 # glslc ships with the Vulkan SDK; glslangValidator is the fallback name.
